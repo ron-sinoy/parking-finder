@@ -94,13 +94,15 @@ router.post("/book", async (req, res) => {
 
 //user profile
 router.get("/profile", async (req, res) => {
+  let { user_id } = req.query;
+  console.log(typeof user_id);
   q = `SELECT pl.public_code, pa.area_name, b.start_time, b.end_time
 FROM bookings b
 JOIN parking_lots pl ON pl.lot_id = b.lot_id
 JOIN parking_area pa ON pl.area_id = pa.area_id
-WHERE b.user_id = $1 AND b.end_time > NOW();`;
+WHERE b.user_id = $1 `;
   try {
-    response = await db.query(q, ["U0000003"]);
+    response = await db.query(q, [user_id]);
     res.json(response.rows);
   } catch (err) {
     console.log(err);
@@ -146,4 +148,5 @@ router.get("/book", async (req, res) => {
     res.status(500).send("Failed to insert booking");
   }
 });
+
 module.exports = router;

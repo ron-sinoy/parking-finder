@@ -33,6 +33,7 @@ const Login = () => {
       if (res.ok) {
         toast.success("Login Successful");
         localStorage.setItem("token", data.token); // save JWT
+        localStorage.setItem("user_id", user_id);
         window.location.replace("http://localhost:5173");
       } else {
         toast.error(data.message);
