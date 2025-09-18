@@ -1,0 +1,46 @@
+.main_body_profile {
+  height: 100vh; /* full viewport height */
+  overflow-y: auto; /* enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  padding: 200px 20px;
+  box-sizing: border-box;
+}
+
+.subtitle {
+  font-weight: 400;
+  font-size: 32px;
+  color: #979797;
+}
+.profile_title {
+  font-family: "playfairDisplay", serif;
+  font-size: 56px;
+  font-weight: 700;
+  padding-top: 30vh;
+  margin-left: 10vw;
+}
+
+button.profile-logout {
+  margin: 5px;
+  position: relative;
+  background-color: #181818 !important;
+  color: #ffffff !important;
+  border: solid 2px #919191 !important;
+  border-radius: 24px !important;
+  padding: 10px 25px;
+  font-size: 24px !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+button.profile-logout:hover {
+  margin: 5px;
+  position: relative;
+  background-color: #505050 !important;
+  color: #ffffff !important;
+  border: solid 2px #919191 !important;
+  border-radius: 24px !important;
+  padding: 10px 25px;
+  font-size: 24px !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}

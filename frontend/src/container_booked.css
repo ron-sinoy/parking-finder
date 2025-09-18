@@ -1,0 +1,35 @@
+.container_main_body_booked {
+  font-family: "Nunito";
+  background-color: #1b1b1e; /* gradient for unselected */
+  color: #fefefe;
+  padding: 40px 10px 30px 40px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  min-width: 350px;
+  max-width: 400px;
+  transition: all 0.2s ease;
+  margin-left: 100px;
+}
+.container_location_booked {
+  font-size: 24px;
+  font-family: "playfairDisplay", serif;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.container_distance_booked {
+  font-family: "playfairDisplay", serif;
+  font-weight: 900;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.container_duration_booked {
+  margin-bottom: 20px;
+}
+.labels {
+  font-size: 14px;
+  font-family: "nunito";
+  font-weight: 100;
+}
+.booked {
+  display: none;
+}

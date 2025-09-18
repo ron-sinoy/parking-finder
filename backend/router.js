@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require("./database.js");
 
 //distance Calculator function
-
 const distanceCalc = (refLat, refLong, lat, long) => {
   const dLat = lat - refLat;
   const dLong = long - refLong;
@@ -14,13 +13,6 @@ const distanceCalc = (refLat, refLong, lat, long) => {
   );
   return Math.ceil(res * 100) / 100;
 };
-
-//delete after stage 1
-router.get("/", (req, res) => {
-  res.send("test001");
-});
-
-//0001
 //homepage GET
 router.get("/home", async (req, res) => {
   let { refLat, refLong, strt, end } = req.query;
@@ -95,15 +87,28 @@ router.post("/book", async (req, res) => {
 //user profile
 router.get("/profile", async (req, res) => {
   let { user_id } = req.query;
-  console.log(typeof user_id);
-  q = `SELECT pl.public_code, pa.area_name, b.start_time, b.end_time
-FROM bookings b
-JOIN parking_lots pl ON pl.lot_id = b.lot_id
-JOIN parking_area pa ON pl.area_id = pa.area_id
-WHERE b.user_id = $1 `;
+
+  const q = `
+    SELECT 
+      pl.public_code, 
+      pa.area_name, 
+      pa.location_lat, 
+      pa.location_long,
+      b.start_time, 
+      b.end_time,
+      pl.price
+    FROM bookings b
+    JOIN parking_lots pl ON pl.lot_id = b.lot_id
+    JOIN parking_area pa ON pl.area_id = pa.area_id
+    WHERE b.user_id = $1
+  `;
+
   try {
-    response = await db.query(q, [user_id]);
-    res.json(response.rows);
+    const response = await db.query(q, [user_id]);
+
+    // If refLat/refLong provided → add distance
+    let result = response.rows;
+    res.json(result);
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error connecting to DB`);
@@ -112,7 +117,7 @@ WHERE b.user_id = $1 `;
 
 //owner profile
 router.get("/manager", async (req, res) => {
-  q3 = `SELECT pa.area_name, pl.public_code, b.start_time, end_time 
+  q3 = `SELECT pa.area_name, pl.public_code, b.start_time, end_time, pl.price
 FROM 
 bookings b
 JOIN parking_lots pl ON pl.lot_id = b.lot_id
@@ -125,27 +130,6 @@ ORDER BY pa.area_id,pl.lot_id;`;
   } catch (err) {
     console.log(err);
     res.status(500).send(`Error connecting to DB`);
-  }
-});
-//booking
-router.get("/book", async (req, res) => {
-  const q4 = `
-    INSERT INTO bookings(user_id, lot_id, start_time, end_time, booking_status)
-    VALUES ($1, $2, $3, $4, $5)
-    RETURNING *;
-  `;
-  try {
-    const result = await db.query(q4, [
-      "U0000008",
-      8,
-      "2025-08-21 09:00:00",
-      "2025-08-21 11:00:00",
-      "confirmed",
-    ]);
-    res.json({ success: true, booking: result.rows[0] });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to insert booking");
   }
 });
 

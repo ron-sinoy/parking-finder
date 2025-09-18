@@ -3,9 +3,10 @@ import Container from "./Container";
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Home = () => {
+  const user_id = localStorage.getItem("user_id");
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
   const [dataArray, setDataArray] = useState([]);
@@ -15,6 +16,7 @@ const Home = () => {
   const [radius, setRadius] = useState(1);
   const [refLat, setRefLat] = useState(null);
   const [refLong, setRefLong] = useState(null);
+  const [booked, setBooked] = useState([]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -43,7 +45,7 @@ const Home = () => {
   function submitHandler() {
     const payload = {
       lot_id: selected,
-      user_id: "U0000010",
+      user_id: user_id,
       start_time: formatDateTime(startTime),
       end_time: formatDateTime(endTime),
       booking_status: "confirmed",
@@ -55,6 +57,9 @@ const Home = () => {
       body: JSON.stringify(payload),
     })
       .then((response) => response.json())
+      .then(() => {
+        setBooked([...booked, payload.lot_id]);
+      })
       .then(() => {
         toast.success("Booking Confirmed");
       })
@@ -95,11 +100,16 @@ const Home = () => {
 
   return (
     <>
+      <Link to="/profile" className="button-top">
+        <button className="btn btn-custom profile-button-top">Profile</button>
+      </Link>
+      <button className="btn btn-custom button-top" onClick={logOutHandler}>
+        Logout
+      </button>
       <div className=" main_title">
         Available Parking Slots
         <br /> in {radius}km
-      </div>
-
+      </div>{" "}
       <div className=" main_body my-4">
         <div className="row flex-column-reverse flex-md-row d-flex justify-content-center">
           {/* Left side - Parking slots */}
@@ -108,7 +118,12 @@ const Home = () => {
               {dataArray
                 .filter((item) => item.distance <= radius)
                 .map((item) => (
-                  <div key={item.lot_id} className="col-md-6 mb-3">
+                  <div
+                    key={item.lot_id}
+                    className={
+                      booked.includes(item.lot_id) ? "booked" : "col-md-6 mb-3"
+                    }
+                  >
                     <Container
                       dist={item.distance}
                       price={`Rs.${item.price}`}
@@ -124,8 +139,12 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Right side - Selection controls */}
-          <div className="col-md-4 mb-4 selection_pane">
+          {/* Right side - Selection controls (slides in) */}
+          <div
+            className={`col-md-4 mb-4 selection_pane ${
+              dataArray.length > 0 ? "show" : ""
+            }`}
+          >
             <div className="mb-3">
               <label className="form-label">Start Time:</label>
               <input
@@ -167,9 +186,6 @@ const Home = () => {
               </button>
               <button className="btn btn-custom" onClick={submitHandler}>
                 Continue
-              </button>
-              <button className="btn btn-custom" onClick={logOutHandler}>
-                Logout
               </button>
             </div>
           </div>

@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: #fefefe;
 }
 
 html,
@@ -29,7 +30,9 @@ body {
 /* Selection pane */
 .selection_pane {
   border-left: solid 1px;
-  flex: 0 0 300px;
+  flex: 0 0 300px; /* fixed 300px column */
+  min-width: 300px; /* ensure it never shrinks */
+  flex-shrink: 0; /* prevents shrinking */
 }
 
 .main_title {
@@ -54,7 +57,7 @@ button {
   color: #ffffff !important;
   border: solid 2px #919191 !important;
   border-radius: 24px !important;
-  padding: 10px 24px !important;
+  padding: 10px 24px;
   font-size: 16px !important;
   font-weight: 500;
   transition: all 0.3s ease;
@@ -84,6 +87,7 @@ input:focus {
 .form-label {
   color: #fefefe;
 }
+
 link :active {
   color: #fefefe;
 }
@@ -116,4 +120,15 @@ link :active {
 
 .sub_body {
   max-width: 850px;
+}
+.button-top {
+  position: absolute;
+  z-index: 2;
+  right: 10vw;
+  top: 120px;
+}
+.profile-button-top {
+  position: absolute;
+  z-index: 2;
+  right: 7vw;
 }

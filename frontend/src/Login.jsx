@@ -67,7 +67,7 @@ const Login = () => {
           <Link to="/signup" className="signup-link">
             <button type="button" className="signup">
               Sign Up
-            </button>{" "}
+            </button>
           </Link>
         </form>
 
