@@ -1,0 +1,119 @@
+/* App.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #000; /* changed background to black */
+  color: #fff; /* default text color white for visibility */
+}
+
+#root {
+  background-color: #000; /* black root */
+  min-height: 100vh;
+}
+
+/* Main layout */
+.main_body {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* horizontal centering */
+  padding-left: 100px;
+  gap: 16px; /* reduce space between columns */
+}
+
+/* Selection pane */
+.selection_pane {
+  border-left: solid 1px;
+  flex: 0 0 300px;
+}
+
+.main_title {
+  color: #ffffff;
+  padding-left: 100px;
+  padding-top: 120px;
+  font-family: "PlayfairDisplay";
+  font-weight: 700;
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+.btn_group {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Buttons like reference */
+button {
+  background-color: #181818 !important;
+  color: #ffffff !important;
+  border: solid 2px #919191 !important;
+  border-radius: 24px !important;
+  padding: 10px 24px !important;
+  font-size: 16px !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1);
+  background-color: #2e2e2e !important;
+}
+
+/* Beautify datetime picker */
+input,
+select.form-select {
+  background-color: #1b1b1e;
+  color: #fefefe;
+  padding: 10px;
+  border-radius: 16px;
+  border: 1px solid #2d2d2d;
+  font-size: 15px;
+  width: 100%;
+}
+
+input:focus {
+  border-color: #fff; /* changed focus border for dark background */
+  outline: none;
+}
+.form-label {
+  color: #fefefe;
+}
+link :active {
+  color: #fefefe;
+}
+
+/* Responsive for mobile */
+@media (max-width: 1000px) {
+  .main_body {
+    flex-direction: column;
+    padding: 0px 10px 0px 20px;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .main_title {
+    color: #ffffff;
+    margin-left: 20px;
+    margin-top: 90px;
+    padding: 0px;
+  }
+
+  .selection_pane {
+    margin-bottom: 24px;
+  }
+
+  .container_section {
+    flex-direction: column;
+    gap: 12px; /* smaller gap on mobile */
+  }
+}
+
+.sub_body {
+  max-width: 850px;
+}

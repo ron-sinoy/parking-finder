@@ -1,3 +1,4 @@
+import "./login.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -23,16 +24,16 @@ const Signup = () => {
         setMessage(data.message);
       }
     } catch (err) {
-      setMessage("Error connecting to server" + err);
+      setMessage("Error connecting to server: " + err);
     }
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
+    <div className="login-container">
       <form onSubmit={handleSubmit}>
+        <h2>Sign Up</h2>
         <div>
-          <label>user_id:</label>
+          <label>User ID:</label>
           <input
             value={user_id}
             onChange={(e) => setUser_id(e.target.value)}
@@ -40,20 +41,23 @@ const Signup = () => {
           />
         </div>
         <div>
-          <label>passcode:</label>
+          <label>Password:</label>
           <input
-            type="passcode"
+            type="password"
             value={passcode}
             onChange={(e) => setPasscode(e.target.value)}
             required
           />
         </div>
         <button type="submit">Sign Up</button>
+
+        {/* Login link styled same as Sign Up link in Login page */}
+        <Link to="/login" className="signup-link">
+          <button type="button">Login</button>
+        </Link>
       </form>
-      <p>{message}</p>
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
+
+      <p style={{ color: "#fefefe", marginTop: "10px" }}>{message}</p>
     </div>
   );
 };

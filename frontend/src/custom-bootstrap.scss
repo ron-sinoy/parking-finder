@@ -1,0 +1,23 @@
+// 1. Override Bootstrap breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 700px,
+  // Changed from 768px to 700px
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
+
+// 2. Optionally, override container widths
+$container-max-widths: (
+  sm: 540px,
+  md: 680px,
+  // Adjust container width for md
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px,
+);
+
+// 3. Import Bootstrap SCSS
+@import "~bootstrap/scss/bootstrap";

@@ -1,4 +1,4 @@
-import "./Home.css";
+import "./home.css";
 import Container from "./Container";
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,8 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
-  const [leftArray, setLeftArray] = useState([]);
-  const [rightArray, setRightArray] = useState([]);
+  const [dataArray, setDataArray] = useState([]);
   const [display, setDisplay] = useState();
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -17,7 +16,6 @@ const Home = () => {
   const [refLat, setRefLat] = useState(null);
   const [refLong, setRefLong] = useState(null);
 
-  // Get live location
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -57,7 +55,7 @@ const Home = () => {
       body: JSON.stringify(payload),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         toast.success("Booking Confirmed");
       })
       .catch((err) => {
@@ -68,10 +66,10 @@ const Home = () => {
 
   function fetchHandler() {
     if (!startTime || !endTime) {
-      toast.error(`Enter time period`);
+      toast.error("Enter time period");
       return;
     } else if (startTime >= endTime) {
-      toast.error(`Invalid Time Duration`);
+      toast.error("Invalid Time Duration");
       return;
     }
 
@@ -85,9 +83,7 @@ const Home = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        const mid = Math.ceil(data.length / 2);
-        setLeftArray(data.slice(0, mid));
-        setRightArray(data.slice(mid));
+        setDataArray(data);
       })
       .catch((err) => console.log(err));
   }
@@ -98,85 +94,90 @@ const Home = () => {
   }
 
   return (
-    <div className="container-fluid row border border-warning">
-      <div className="container-fluid col-9 border border-primary">
-        <div className="row">
-          <div className="container-fluid col">
-            {leftArray
-              .filter((item) => item.distance <= radius)
-              .map((item) => (
-                <Container
-                  key={item.lot_id}
-                  dist={item.distance}
-                  price={`Rs.${item.price}`}
-                  loctn={item.area_name}
-                  onClick={() => {
-                    setSelected(item.lot_id);
-                    setDisplay(item.area_name);
-                  }}
-                />
-              ))}
-          </div>
-          <div className="container-fluid col">
-            {rightArray
-              .filter((item) => item.distance <= radius)
-              .map((item) => (
-                <Container
-                  key={item.lot_id}
-                  dist={item.distance}
-                  price={`Rs.${item.price}`}
-                  loctn={item.area_name}
-                  onClick={() => {
-                    setSelected(item.lot_id);
-                    setDisplay(item.area_name);
-                  }}
-                />
-              ))}
-          </div>
-        </div>
+    <>
+      <div className=" main_title">
+        Available Parking Slots
+        <br /> in {radius}km
       </div>
-      <div className="container-fluid col-3">
-        {display ? `Near ${display}` : ""}
 
-        <div>
-          <label>Start Time:</label>
-          <input
-            type="datetime-local"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>End Time:</label>
-          <input
-            type="datetime-local"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-          />
+      <div className=" main_body my-4">
+        <div className="row flex-column-reverse flex-md-row d-flex justify-content-center">
+          {/* Left side - Parking slots */}
+          <div className="col-md-8 ">
+            <div className="row sub_body">
+              {dataArray
+                .filter((item) => item.distance <= radius)
+                .map((item) => (
+                  <div key={item.lot_id} className="col-md-6 mb-3">
+                    <Container
+                      dist={item.distance}
+                      price={`Rs.${item.price}`}
+                      loctn={item.area_name}
+                      selected={selected === item.lot_id}
+                      onClick={() => {
+                        setSelected(item.lot_id);
+                        setDisplay(item.area_name);
+                      }}
+                    />
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          {/* Right side - Selection controls */}
+          <div className="col-md-4 mb-4 selection_pane">
+            <div className="mb-3">
+              <label className="form-label">Start Time:</label>
+              <input
+                type="datetime-local"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">End Time:</label>
+              <input
+                type="datetime-local"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Radius:</label>
+              <select
+                value={radius}
+                className="form-select"
+                onChange={(e) => setRadius(parseInt(e.target.value))}
+              >
+                <option value="1">1km</option>
+                <option value="3">3km</option>
+                <option value="5">5km</option>
+                <option value="10">10km</option>
+                <option value="20">20km</option>
+                <option value="30">30km</option>
+                <option value="50">50km</option>
+              </select>
+            </div>
+
+            <div className="d-flex flex-wrap gap-2">
+              <button className="btn btn-custom" onClick={fetchHandler}>
+                Apply
+              </button>
+              <button className="btn btn-custom" onClick={submitHandler}>
+                Continue
+              </button>
+              <button className="btn btn-custom" onClick={logOutHandler}>
+                Logout
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label>Radius:</label>
-          <select
-            value={radius}
-            onChange={(e) => setRadius(parseInt(e.target.value))}
-          >
-            <option value="1">1km</option>
-            <option value="3">3km</option>
-            <option value="5">5km</option>
-            <option value="10">10km</option>
-            <option value="20">20km</option>
-            <option value="30">30km</option>
-            <option value="50">50km</option>
-          </select>
-        </div>
-
-        <button onClick={fetchHandler}>Apply</button>
-        <button onClick={submitHandler}>Continue</button>
+        <ToastContainer theme="dark" />
       </div>
-      <button onClick={logOutHandler}>LogOut</button>
-      <ToastContainer theme="dark" />
-    </div>
+    </>
   );
 };
 

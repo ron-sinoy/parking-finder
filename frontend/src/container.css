@@ -1,0 +1,125 @@
+/* Fonts */
+@font-face {
+  font-family: "PlayfairDisplay";
+  src: url("./assets/fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/Nunito/Nunito-VariableFont_wght.ttf");
+}
+
+/* Light container */
+.container_main_body {
+  font-family: "Nunito";
+  background-color: #1b1b1e;
+  color: #fefefe;
+  padding: 40px 0;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  min-width: 350px;
+  max-width: 400px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Dark container (unselected gradient) */
+.container_main_body_dark {
+  font-family: "Nunito";
+  background-color: #1b1b1e; /* gradient for unselected */
+  color: #fefefe;
+  padding: 40px 0;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  min-width: 350px;
+  max-width: 400px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Selected container with video */
+/* Selected container with video */
+.container_main_body_selected {
+  position: relative;
+  color: #fefefe;
+  border: #fefefe solid 2px;
+  padding: 40px 0;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  min-width: 350px;
+  max-width: 400px;
+  cursor: pointer;
+  overflow: hidden; /* needed for video */
+  transition: all 0.3s ease;
+  background: none;
+  min-height: 100px;
+  transform: scale(1); /* ensure video has height */
+  /* IMPORTANT: remove any gradient or color */
+}
+
+/* Video styling */
+.bg-video {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* video fully covers container */
+  transform: scaleX(1.5) translate(0%, -50%); /* center video */
+  z-index: -1; /* behind content */
+  opacity: 1;
+}
+
+/* Hover effects for both containers */
+.container_main_body:hover,
+.container_main_body_dark:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Sub-elements above video */
+.container_price,
+.container_location,
+.container_dist,
+.container_details {
+  position: relative;
+  z-index: 1;
+}
+
+/* Sub-elements styling */
+.container_price {
+  font-weight: 500;
+}
+
+.container_dist {
+  font-family: "PlayfairDisplay";
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.container_location {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.container_details {
+  display: flex;
+  flex-direction: column;
+}
+.container_main_body_dark {
+  position: relative;
+  font-family: "Nunito";
+  color: #fefefe;
+  padding: 40px 0;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  min-width: 350px;
+  max-width: 400px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
