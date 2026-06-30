@@ -26,9 +26,28 @@ Parking Finder is a full-stack web application that helps users find available p
 
 ## Getting Started
 
-## To run
-
-``
+### Backend
+```
+cd backend
+npm install
 node server.js
-``
+```
 
+### Frontend
+```
+cd frontend
+npm install
+npm start
+```
+
+### CORS Configuration
+The backend uses the `cors` package to allow requests from the frontend. Install it if not already present:
+```
+npm install cors
+```
+
+In `server.js`:
+```js
+const cors = require('cors');
+app.use(cors({ origin: 'http://localhost:3000' }));
+```
